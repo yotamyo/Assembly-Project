@@ -1,0 +1,166 @@
+IDEAL
+MODEL small
+STACK 100h
+
+DATASEG
+main_menu_text_W db 'Press S for help',10,13,'$'
+main_menu_text_S db 'Press W to start',10,13,'$'
+
+settings_screen_help1 db 'You are playing a hungry snake',10, 13,'$'
+settings_screen_help2 db 'that craves Food.' ,10, 13,'$'
+settings_screen_help3 db 'Chase and consume everything that pops',10,13,'$'
+settings_screen_help4 db 'up on your screen, but beware!', 10, 13,'$'
+settings_screen_help5 db 'use wasd to move around',10,13,'$'
+settings_screen_help6 db 'and avoid the walls and your tail.',10, 13,'$'
+
+settings_screen_options1 db 'press C to change colors!',10,13,'$'
+settings_screen_options2 db 'press B to go back',10,13,'$'
+
+
+CODESEG
+;proc PRINTGRAPHIC
+
+
+
+
+
+
+
+;-----------------------------------------------------------------------------------------------
+proc PRINTTEXT_longtext
+;this funtcion prints the tutorial on the settings menu. recieves 6 arrays that contain a line of code and prints them one after another
+    push bp
+    mov bp, sp
+    push ax
+    push dx
+
+    mov ah, 9h  
+    mov dx, [bp+14]
+    int 21h
+    mov dx, [bp+12]
+    int 21h 
+    mov dx, [bp+10]
+    int 21h
+    mov dx, [bp+8]
+    int 21h 
+    mov dx, [bp+6]
+    int 21h 
+    mov dx, [bp+4]
+    int 21h
+
+    pop dx
+    pop ax
+    pop bp
+    ret 14
+    endp printtext_longtext
+
+;-----------------------------------------------------------------------------------------------
+
+Proc PRINTTEXT_spaces
+;prints tav instructions for users in the main menu. push spaced down amnt and than push W  and than S and than call the function.
+    push bp
+    mov bp, sp
+    push ax
+    push cx
+    push dx
+
+    xor dx, dx
+    xor ax, ax
+
+    mov cx, [bp+8]
+position:
+    mov dl, 10
+    mov ah, 2
+    int 21h
+    loop position
+    
+
+    mov dx, [bp+6]
+    mov ah, 9h
+    int 21h
+    mov dx, [bp+4]
+    int 21h 
+    
+    pop dx
+    pop cx
+    pop ax
+    pop bp
+    ret 6
+    endp printtext_spaces
+;-----------------------------------------------------------------------------------------------
+proc MAINMENUWFK
+;Waits for users input while main menu is turned on. jmps accordingly
+    push ax
+    xor ax, ax
+    mov ah, 1
+    int 21h
+    cmp al, 119
+    je Start_Game_tag
+    cmp al, 115
+    je Settings_Screen
+    pop ax
+    jmp mainmenu
+    endp MAINMENUWFK
+
+;-----------------------------------------------------------------------------------------------
+start:
+	mov ax, @data
+	mov ds, ax
+
+    mov ax, 13h
+	int 10h
+
+    ;load up main menu 
+   ; ---
+MainMenu:
+    ;call MAINMENUGRAPHIC
+    
+    push 18
+    push offset main_menu_text_w
+    push offset main_menu_text_s
+    call PRINTTEXT_spaces
+    call MAINMENUWFK
+
+    jmp keepgoing
+start_game_tag:
+    jmp start_game
+
+keepgoing:
+
+
+
+
+settings_screen:
+    push ax
+    mov ax, 13h
+    int 10h
+    pop ax
+
+    ;turn on settings menu
+  ;  ----------
+ ;   call SETTINGSSCREENGRAPHIC
+    
+    push offset settings_screen_help1
+    push offset settings_screen_help2
+    push offset settings_screen_help3
+    push offset settings_screen_help4
+    push offset settings_screen_help5
+    push offset settings_screen_help6
+    call printtext_longtext
+
+    push 15
+    push offset settings_screen_options1
+    push offset settings_screen_options2
+    call printtext_spaces
+
+Start_Game:
+
+
+
+
+
+exit:
+	mov ax, 4c00h
+	int 21h
+	
+END start
