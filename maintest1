@@ -36,9 +36,9 @@ AHeightY db 39, 40, 41, 42, 37, 38, 39, 40, 41, 42, 34, 35, 36, 37, 38, 39, 40, 
 AWidthX db 146, 146, 146, 146, 147, 147, 147, 147, 147, 147, 148, 148, 148, 148, 148, 148, 148, 149, 149, 149, 149, 149, 149, 149, 150, 150, 150, 150, 150, 150, 151, 151, 151, 151, 151, 151, 151, 151, 151, 151, 152, 153, 154, 155, 156, 152, 153, 154, 155, 156, 152, 152, 152, 152, 152, 152, 152, 153, 153, 153, 153, 153, 153, 153, 154, 154, 154, 154, 154, 154, 155, 155, 155, 155, 155, 155, 156, 156, 156, 156, 156, 156, 156, 156, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 159, 159, 159, 159, 159, 159, 159, 159, 159, 159, 159, 160, 160, 160, 160, 160, 160
 ALen dw 125
 
-;KWHeightY db
-;KwidthX db
-;KLen dw
+KHeightY db 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 28, 29, 30, 31, 27, 28, 29, 30, 31, 32, 26, 27, 28, 30, 31, 32, 33, 26, 27, 28, 31, 32, 33, 34, 27, 26, 32, 33, 34, 25, 26, 27, 33, 34, 35, 25, 26, 27, 34, 35, 36, 24, 25, 26, 27, 34, 35, 36, 24, 25, 26, 35, 36, 37, 23, 24, 25, 36, 37, 38, 39, 21, 22, 23, 24, 25, 37, 38, 39, 40
+KwidthX db 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 172, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 173, 174, 174, 174, 174, 175, 175, 175, 175, 175, 175, 176, 176, 176, 176, 176, 176, 176, 177, 177, 177, 177, 177, 177, 177, 178, 178, 178, 178, 178, 179, 179, 179, 179, 179, 179, 180, 180, 180, 180, 180, 180, 181, 181, 181, 181, 181, 181, 181, 182, 182, 182, 182, 182, 182, 183, 183, 183, 183, 183, 183, 183, 184, 184, 184, 184, 184, 184, 184, 184, 184
+KLen dw 116
 
 EHeightY db 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
 EWidthX db 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211
@@ -54,6 +54,13 @@ gamecolor dw 0
 ;white/cyan, blue/red, yellow/green
 TTcolor dw 11
 SNcolor dw 15
+
+
+;first index is the head
+SnakeY dw 122, 126, 130, 134
+SnakeX dw 105, 105, 105, 105
+SnakeLen dw 4
+
 
 
 
@@ -74,8 +81,8 @@ proc PRINTGRAPHIC
     push dx
     xor cx, cx
     xor dx, dx
-     xor ax, ax
-     mov cx, len
+    xor ax, ax
+    mov cx, len
 
 
     GraphicLoop:
@@ -106,7 +113,75 @@ proc PRINTGRAPHIC
     ret 8
     endp printgraphic
 ;-----------------------------------------------------------------------------------------------
+proc MAINMENUGRAPHIC
+	mov ax, 13h
+    int 10h
+    ;print S
+    push [ttcolor]
+    push [slen]
+    push offset sheighty
+    push offset swidthx
+    call printgraphic
+    ;print N
+    push [ttcolor]
+    push [nlen]
+    push offset nheighty
+    push offset nwidthx
+    call printgraphic
+    ;print A
+    push [ttcolor]
+    push [alen]
+    push offset aheighty
+    push offset awidthx
+    call printgraphic
+    ;print K
+    push [ttcolor]
+    push [klen]
+    push offset kheighty
+    push offset kwidthx
+    call printgraphic
+    ;print E
+    push [ttcolor]
+    push [elen]
+    push offset eheighty
+    push offset ewidthx
+    call printgraphic
+    ;print MM text
+    push 18
+    push offset main_menu_text_w
+    push offset main_menu_text_s
+    call PRINTTEXT_spaces
+    call MAINMENUWFK
+    ret
+    endp mainmenugraphic
+;-----------------------------------------------------------------------------------------------
+proc Settingsscreenhraphic
+    push ax
+    mov ax, 13h
+    int 10h
+    pop ax
+
+    push [sncolor]
+    push 10
+    push offset settings_screen_colory
+    push offset settings_screen_colorx
+    call printgraphic
+    push offset settings_screen_help1
+    push offset settings_screen_help2
+    push offset settings_screen_help3
+    push offset settings_screen_help4
+    push offset settings_screen_help5
+    push offset settings_screen_help6
+    call printtext_longtext
+    push 15
+    push offset settings_screen_options1
+    push offset settings_screen_options2
+    call printtext_spaces
+    call settingsmenuwfk
+    endp settingsscreenhraphic
+    ret
 proc PRINTTEXT_longtext
+;-----------------------------------------------------------------------------------------------
 ;this funtcion prints the tutorial on the settings menu. recieves 6 arrays that contain a line of code and prints them one after another
     push bp
     mov bp, sp
@@ -134,7 +209,83 @@ proc PRINTTEXT_longtext
     endp printtext_longtext
 
 ;-----------------------------------------------------------------------------------------------
-
+proc STARTGAMEGrAPHIC
+    mov ax, 13h
+	int 10h
+    push [ttcolor]
+    push 200
+    call printgraphicx
+    push [ttcolor]
+    push 199
+    call printgraphicx
+    push [ttcolor]
+    push 198
+    call printgraphicx
+    push [ttcolor]
+    push 197
+    call printgraphicx
+    push [ttcolor]
+    push 1
+    call printgraphicx
+    push [ttcolor]
+    push 2
+    call printgraphicx
+    push [ttcolor]
+    push 3
+    call printgraphicx
+    push [ttcolor]
+    push 4
+    call printgraphicx
+; - - - - - - - -- - -
+; - - - - - - - -- - -
+    push [ttcolor]
+    push 320
+    call printgraphicy
+    push [ttcolor]
+    push 319
+    call printgraphicy
+    push [ttcolor]
+    push 318
+    call printgraphicy
+    push [ttcolor]
+    push 317
+    call printgraphicy
+    push [ttcolor]
+    push 1
+    call printgraphicy
+    push [ttcolor]
+    push 2
+    call printgraphicy
+    push [ttcolor]
+    push 3
+    call printgraphicy
+    push [ttcolor]
+    push 4
+    call printgraphicy
+;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+;print starting snake
+    push cx
+    push bx
+    mov cx, [snakelen]
+    xor bx, bx
+printss:
+    mov si, cx
+    shl si, 1
+    push [sncolor]
+    xor bx, bx
+    mov bx, [snakeY + si - 2]
+    push bx
+    xor bx, bx
+    mov bx, [snakeX + si - 2]
+    push bx
+    xor bx, bx
+    call printsquare
+    loop printss
+    pop bx
+    pop cx
+    ret
+    endp startgamegraphic
+;-----------------------------------------------------------------------------------------------
 Proc PRINTTEXT_spaces
 ;prints tav instructions for users in the main menu. push spaced down amnt and than push W  and than S and than call the function.
     push bp
@@ -240,6 +391,344 @@ c2:
     endp changecolors
 
 ;-----------------------------------------------------------------------------------------------
+ proc PRINTGRAPHICX
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+
+
+    mov cx, 320
+printerx:
+    X equ si
+    Y equ [bp + 4]
+    color equ [bp + 6]
+
+    push cx
+    mov si, cx
+
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+
+
+    mov bx, X
+    mov cx, bx
+    xor bx, bx
+    mov bx, Y
+    mov dx, bx
+    xor bx, bx
+    mov bx, color 
+    mov al, bl
+    xor bx, bx
+    mov ah, 0ch
+    int 10h
+    pop cx
+    loop printerx
+
+    pop dx
+    pop cx 
+    pop bx
+    pop ax
+    pop bp 
+    ret 4
+    endp printgraphicx
+;----------------------------------------------------------------------------------------------
+ proc PRINTGRAPHICY
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+
+
+    mov cx, 200
+printery:
+    X equ [bp + 4]
+    Y equ si
+    color equ [bp + 6]
+
+    push cx
+    mov si, cx
+
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+
+
+    mov bx, X
+    mov cx, bx
+    xor bx, bx
+    mov bx, Y
+    mov dx, bx
+    xor bx, bx
+    mov bx, color 
+    mov al, bl
+    xor bx, bx
+    mov ah, 0ch
+    int 10h
+    pop cx
+    loop printery
+
+    pop dx
+    pop cx 
+    pop bx
+    pop ax
+    pop bp 
+    ret 4
+    endp printgraphicy
+;----------------------------------------------------------------------------------------------
+proc PRINTSQUARE ;prints 4x4 square by the bottom right corner
+    IX equ [bp + 4]
+    IY equ [bp + 6]
+    color equ [bp + 8]
+
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    push si 
+
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+    xor si, si
+
+    mov cx, 4
+Sprinter1:
+    push cx
+    mov si, cx
+
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+    
+
+    mov bx, IX 
+    mov cx, bx
+    xor bx, bx
+    mov bx, IY 
+    add bx, si
+    dec bx
+    mov dx, bx
+    xor bx, bx
+    mov bx, color 
+    mov al, bl
+    xor bx, bx
+    mov ah, 0ch
+    int 10h
+    pop cx
+    loop sprinter1
+
+    mov cx, 4
+Sprinter2:
+    push cx
+    mov si, cx
+
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+
+
+    mov bx, IX 
+    dec bx
+    mov cx, bx
+    xor bx, bx
+    mov bx, IY 
+    add bx, si
+    dec bx
+    mov dx, bx
+    xor bx, bx
+    mov bx, color 
+    mov al, bl
+    xor bx, bx
+    mov ah, 0ch
+    int 10h
+    pop cx
+    loop sprinter2
+
+    mov cx, 4
+Sprinter3:
+    push cx
+    mov si, cx
+
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+
+
+    mov bx, IX 
+    dec bx 
+    dec bx
+    mov cx, bx
+    xor bx, bx
+    mov bx, IY 
+    add bx, si
+    dec bx
+    mov dx, bx
+    xor bx, bx
+    mov bx, color 
+    mov al, bl
+    xor bx, bx
+    mov ah, 0ch
+    int 10h
+    pop cx
+    loop sprinter3
+
+    mov cx, 4
+Sprinter4:
+    push cx
+    mov si, cx
+
+    xor ax, ax
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+
+
+    mov bx, IX
+    dec bx
+    dec bx
+    dec bx
+    mov cx, bx
+    xor bx, bx
+    mov bx, IY 
+    add bx, si
+    dec bx
+    mov dx, bx
+    xor bx, bx
+    mov bx, color 
+    mov al, bl
+    xor bx, bx
+    mov ah, 0ch
+    int 10h
+    pop cx
+    loop sprinter4
+
+    pop si
+    pop dx
+    pop cx 
+    pop bx
+    pop ax
+    pop bp 
+    ret 6
+    endp printsquare
+;----------------------------------------------------------------------------------------------
+proc TAILOFF
+    push bx
+    push si
+
+    xor bx, bx
+    xor si, si
+
+    mov si, [snakelen]
+    shl si, 1
+    push 0
+    mov bx, [snakey + si - 2]
+    push bx
+    xor bx, bx
+    mov bx, [snakex + si - 2]
+    push bx
+    xor bx, bx
+    call printsquare   
+
+    pop si
+    pop bx
+    ret 
+    endp tailoff
+;----------------------------------------------------------------------------------------------
+proc HEADONUP
+    push bx
+    push cx
+    push si
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    push [sncolor]
+    mov bx, [snakey + 0]
+    sub bx, 4
+    push bx
+    xor bx, bx
+    mov bx, [snakex + 0]
+    push bx
+    xor bx, bx
+    call printsquare
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp headonup
+ ;----------------------------------------------------------------------------------------------
+proc UPDATESNAKEUP
+    push bx
+    push cx
+    push si
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+
+    mov cx, [snakelen]
+    sub cx, 1
+USUyloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakey + si - 2]
+    mov [snakey + si], bx
+    xor bx, bx
+    loop usuyloop
+
+    sub [snakey + 0], 4
+
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    mov cx, [snakelen]
+    sub cx, 1
+USUxloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakex + si - 2]
+    mov [snakex + si], bx
+    xor bx, bx
+    loop usuxloop
+
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp updatesnakeup
+
+;----------------------------------------------------------------------------------------------
+
 start:
 	mov ax, @data
 	mov ds, ax
@@ -247,6 +736,8 @@ start:
     xor bx, bx
     xor cx, cx
     xor dx, dx
+
+
 
 
     mov ax, 13h
@@ -263,93 +754,16 @@ settings_screen_tag2:
 ;Train station! SMWFK
 
 
-    ;load up main menu 
-   ; ---
 MainMenu:
-    ;clear screen
-	mov ax, 13h
-    int 10h
-
-
-    ;print S
-    push [ttcolor]
-    push [slen]
-    push offset sheighty
-    push offset swidthx
-    call printgraphic
-
-    ;print N
-    push [ttcolor]
-    push [nlen]
-    push offset nheighty
-    push offset nwidthx
-    call printgraphic
-
-    ;print A
-    push [ttcolor]
-    push [alen]
-    push offset aheighty
-    push offset awidthx
-    call printgraphic
-
-    ;print K
-    push [ttcolor]
-    push [elen]
-    push offset eheighty
-    push offset ewidthx
-    call printgraphic
-
-
-
-    ;print MM text
-    push 18
-    push offset main_menu_text_w
-    push offset main_menu_text_s
-    call PRINTTEXT_spaces
-    call MAINMENUWFK
-
+    ;load up main menu 
+    call mainmenugraphic
 
 
 
 settings_screen:
     pop ax ;MMWFK
-    push ax
-    mov ax, 13h
-    int 10h
-    pop ax
-
-    ;turn on settings menu
-  ;  ----------
- ;   
-    push [sncolor]
-    push 10
-    push offset settings_screen_colory
-    push offset settings_screen_colorx
-    call printgraphic
-
-
-    push offset settings_screen_help1
-    push offset settings_screen_help2
-    push offset settings_screen_help3
-    push offset settings_screen_help4
-    push offset settings_screen_help5
-    push offset settings_screen_help6
-    call printtext_longtext
-
-    push 15
-    push offset settings_screen_options1
-    push offset settings_screen_options2
-    call printtext_spaces
-
-
-    call settingsmenuwfk
-
-
-;changing game color through settings menu
-
-change_colors:
-
-
+;turn on settings menu
+    call Settingsscreenhraphic
 
 
 
@@ -358,6 +772,58 @@ change_colors:
 Start_Game:
     pop ax
 ;MMWFK 
+
+
+    ;turning on walls and snake
+    call startgamegraphic
+
+
+
+
+clock equ 40:6Ch
+Move_Up:
+
+
+    mov cx, 18 ;
+
+
+
+
+
+
+
+
+
+
+
+Move_Down:
+Move_Right:
+Move_Left:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
