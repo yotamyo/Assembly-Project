@@ -62,13 +62,15 @@ SnakeX dw 105, 105, 105, 105
 SnakeLen dw 4
 
 
+Clock equ es:6Ch
+
+
 
 
 
 
 CODESEG
 ;-----------------------------------------------------------------------------------------------
-;proc PRINTGRAPHIC
 proc PRINTGRAPHIC
     color equ [bp + 10]
     len equ [bp + 8]
@@ -178,10 +180,10 @@ proc Settingsscreenhraphic
     push offset settings_screen_options2
     call printtext_spaces
     call settingsmenuwfk
-    endp settingsscreenhraphic
     ret
-proc PRINTTEXT_longtext
+    endp settingsscreenhraphic
 ;-----------------------------------------------------------------------------------------------
+proc PRINTTEXT_longtext
 ;this funtcion prints the tutorial on the settings menu. recieves 6 arrays that contain a line of code and prints them one after another
     push bp
     mov bp, sp
@@ -207,7 +209,6 @@ proc PRINTTEXT_longtext
     pop bp
     ret 14
     endp printtext_longtext
-
 ;-----------------------------------------------------------------------------------------------
 proc STARTGAMEGrAPHIC
     mov ax, 13h
@@ -635,6 +636,23 @@ Sprinter4:
     ret 6
     endp printsquare
 ;----------------------------------------------------------------------------------------------
+proc WAITSEC
+    push ax
+    push cx
+
+    mov cx, 18 ;1 sec speed
+Delay:
+    mov ax, [clock]
+tick:
+    cmp ax, [clock]
+    je tick
+    loop delay
+
+    pop cx
+    pop ax
+    ret 
+    endp waitsec
+;----------------------------------------------------------------------------------------------
 proc TAILOFF
     push bx
     push si
@@ -728,10 +746,82 @@ USUxloop:
     endp updatesnakeup
 
 ;----------------------------------------------------------------------------------------------
+;----------------------------------------------------------------------------------------------
+proc HEADONDOWN
+    push bx
+    push cx
+    push si
 
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    push [sncolor]
+    mov bx, [snakey + 0]
+    add bx, 4
+    push bx
+    xor bx, bx
+    mov bx, [snakex + 0]
+    push bx
+    xor bx, bx
+    call printsquare
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp headondown
+ 
+  ;----------------------------------------------------------------------------------------------
+proc UPDATESNAKEUP
+    push bx
+    push cx
+    push si
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+
+    mov cx, [snakelen]
+    sub cx, 1
+USUyloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakey + si - 2]
+    mov [snakey + si], bx
+    xor bx, bx
+    loop usuyloop
+
+    add [snakey + 0], 4
+
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    mov cx, [snakelen]
+    sub cx, 1
+USUxloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakex + si - 2]
+    mov [snakex + si], bx
+    xor bx, bx
+    loop usuxloop
+
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp updatesnakeup
+;----------------------------------------------------------------------------------------------
 start:
 	mov ax, @data
 	mov ds, ax
+    mov ax, 40h
+    mov es, ax
     xor ax , ax
     xor bx, bx
     xor cx, cx
@@ -780,23 +870,21 @@ Start_Game:
 
 
 
-clock equ 40:6Ch
 Move_Up:
-
-
-    mov cx, 18 ;
-
-
-
-
-
-
-
+    call waitsec
+    call headonup
+    call tailoff
+    call updatesnakeup
+    jmp move_up
 
 
 
 
 Move_Down:
+
+
+
+
 Move_Right:
 Move_Left:
 
