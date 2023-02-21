@@ -17,6 +17,8 @@ settings_screen_help6 db 'and avoid the walls and your tail.',10, 13,'$'
 settings_screen_options1 db 'press C to change colors!',10,13,'$'
 settings_screen_options2 db 'press B to go back',10,13,'$'
 
+game_over db 'Game Over',10,13,'$'
+you_suck db 'you suck!',10,13,'$'
 
 
 
@@ -57,21 +59,23 @@ SNcolor dw 15
 
 
 ;first index is the head
-SnakeY dw 122, 126, 130, 134
-SnakeX dw 105, 105, 105, 105
+SnakeY dw 122, 126, 130, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+SnakeX dw 105, 105, 105, 105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 SnakeLen dw 4
-
+leading_pixely dw 122, 122, 122, 122, 123, 123, 123, 123, 124, 124, 124, 124, 125, 125, 125, 125
+leading_pixelx dw 105, 104, 103, 102, 105, 104, 103, 102, 105, 104, 103, 102, 105, 104, 103, 102
 
 Clock equ es:6Ch
 
-
+appleY dw 0 
+appleX dw 0
 
 
 
 
 CODESEG
 ;-----------------------------------------------------------------------------------------------
-proc PRINTGRAPHIC
+proc PRINTGRAPHIC ;prints a graphic from given arrays and color
     color equ [bp + 10]
     len equ [bp + 8]
     Y equ [bp + 6]
@@ -115,7 +119,7 @@ proc PRINTGRAPHIC
     ret 8
     endp printgraphic
 ;-----------------------------------------------------------------------------------------------
-proc MAINMENUGRAPHIC
+proc MAINMENUGRAPHIC ;turns on main menu
 	mov ax, 13h
     int 10h
     ;print S
@@ -157,7 +161,7 @@ proc MAINMENUGRAPHIC
     ret
     endp mainmenugraphic
 ;-----------------------------------------------------------------------------------------------
-proc Settingsscreenhraphic
+proc Settingsscreenhraphic ;turns on settings screen
     push ax
     mov ax, 13h
     int 10h
@@ -184,7 +188,7 @@ proc Settingsscreenhraphic
     endp settingsscreenhraphic
 ;-----------------------------------------------------------------------------------------------
 proc PRINTTEXT_longtext
-;this funtcion prints the tutorial on the settings menu. recieves 6 arrays that contain a line of code and prints them one after another
+;prints the tutorial on the settings menu. recieves 6 arrays that contain a line of code and prints them one after another
     push bp
     mov bp, sp
     push ax
@@ -210,7 +214,7 @@ proc PRINTTEXT_longtext
     ret 14
     endp printtext_longtext
 ;-----------------------------------------------------------------------------------------------
-proc STARTGAMEGrAPHIC
+proc STARTGAMEGRAPHIC ;prints starting game screen
     mov ax, 13h
 	int 10h
     push [ttcolor]
@@ -263,7 +267,7 @@ proc STARTGAMEGrAPHIC
     push [ttcolor]
     push 4
     call printgraphicy
-;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 ;print starting snake
     push cx
     push bx
@@ -288,7 +292,7 @@ printss:
     endp startgamegraphic
 ;-----------------------------------------------------------------------------------------------
 Proc PRINTTEXT_spaces
-;prints tav instructions for users in the main menu. push spaced down amnt and than push W  and than S and than call the function.
+;prints two lines of text at a given space
     push bp
     mov bp, sp
     push ax
@@ -361,7 +365,7 @@ cc:
     call changecolors
     endp settingsmenuwfk
 ;-----------------------------------------------------------------------------------------------
-proc CHANGECOLORS
+proc CHANGECOLORS ;changes game colors accordingly 
     cmp [gamecolor], 2
     je gamecolorcycle
     inc [gamecolor]
@@ -392,7 +396,7 @@ c2:
     endp changecolors
 
 ;-----------------------------------------------------------------------------------------------
- proc PRINTGRAPHICX
+ proc PRINTGRAPHICX ;prints a row in a given Y
     push bp
     mov bp, sp
     push ax
@@ -443,7 +447,7 @@ printerx:
     ret 4
     endp printgraphicx
 ;----------------------------------------------------------------------------------------------
- proc PRINTGRAPHICY
+ proc PRINTGRAPHICY ;prints a coullum in a given X
     push bp
     mov bp, sp
     push ax
@@ -640,7 +644,7 @@ proc WAITSEC
     push ax
     push cx
 
-    mov cx, 18 ;1 sec speed
+    mov cx, 5 ;1 sec speed
 Delay:
     mov ax, [clock]
 tick:
@@ -745,7 +749,7 @@ USUxloop:
     ret 
     endp updatesnakeup
 
-;----------------------------------------------------------------------------------------------
+
 ;----------------------------------------------------------------------------------------------
 proc HEADONDOWN
     push bx
@@ -773,7 +777,7 @@ proc HEADONDOWN
     endp headondown
  
   ;----------------------------------------------------------------------------------------------
-proc UPDATESNAKEUP
+proc updatesnakedown
     push bx
     push cx
     push si
@@ -785,13 +789,13 @@ proc UPDATESNAKEUP
 
     mov cx, [snakelen]
     sub cx, 1
-USUyloop:
+USDyloop:
     mov si, cx
     shl si, 1
     mov bx, [snakey + si - 2]
     mov [snakey + si], bx
     xor bx, bx
-    loop usuyloop
+    loop usdyloop
 
     add [snakey + 0], 4
 
@@ -802,21 +806,361 @@ USUyloop:
 
     mov cx, [snakelen]
     sub cx, 1
-USUxloop:
+USDXloop:
     mov si, cx
     shl si, 1
     mov bx, [snakex + si - 2]
     mov [snakex + si], bx
     xor bx, bx
-    loop usuxloop
+    loop usdxloop
 
 
     pop si
     pop cx
     pop bx
     ret 
-    endp updatesnakeup
+    endp updatesnakedown
 ;----------------------------------------------------------------------------------------------
+proc HEADONLEFT
+    push bx
+    push cx
+    push si
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    push [sncolor]
+    mov bx, [snakey + 0]
+    push bx
+    xor bx, bx
+    mov bx, [snakex + 0]
+    sub bx, 4
+    push bx
+    xor bx, bx
+    call printsquare
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp headonleft
+ ;----------------------------------------------------------------------------------------------
+ proc updatesnakeleft
+    push bx
+    push cx
+    push si
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+
+    mov cx, [snakelen]
+    sub cx, 1
+USLyloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakey + si - 2]
+    mov [snakey + si], bx
+    xor bx, bx
+    loop uslyloop
+
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    mov cx, [snakelen]
+    sub cx, 1
+USLXloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakex + si - 2]
+    mov [snakex + si], bx
+    xor bx, bx
+    loop uslxloop
+    sub [snakex + 0], 4
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp updatesnakeleft
+;----------------------------------------------------------------------------------------------
+proc HEADONRIGHT
+    push bx
+    push cx
+    push si
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    push [sncolor]
+    mov bx, [snakey + 0]
+    push bx
+    xor bx, bx
+    mov bx, [snakex + 0]
+    add bx, 4
+    push bx
+    xor bx, bx
+    call printsquare
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp headonRIGHT
+ ;----------------------------------------------------------------------------------------------
+ proc updatesnakeright
+    push bx
+    push cx
+    push si
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+
+    mov cx, [snakelen]
+    sub cx, 1
+USRyloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakey + si - 2]
+    mov [snakey + si], bx
+    xor bx, bx
+    loop usryloop
+
+
+    xor bx, bx
+    xor cx, cx
+    xor si, si
+
+    mov cx, [snakelen]
+    sub cx, 1
+USrXloop:
+    mov si, cx
+    shl si, 1
+    mov bx, [snakex + si - 2]
+    mov [snakex + si], bx
+    xor bx, bx
+    loop usrxloop
+    add [snakex + 0], 4
+
+    pop si
+    pop cx
+    pop bx
+    ret 
+    endp updatesnakeright
+;----------------------------------------------------------------------------------------------
+proc getinput
+    push ax
+    mov ah, 01h
+    int 16h
+    pop ax
+    ret
+    endp getinput
+;----------------------------------------------------------------------------------------------
+proc checkinput
+    mov ah, 00h
+    int 16h
+    ret
+   endp checkinput
+;----------------------------------------------------------------------------------------------
+proc clearbuffer
+    push ax
+    mov ah, 0ch
+    mov al, 0
+    int 21h
+    pop ax
+    ret 
+    endp clearbuffer
+;----------------------------------------------------------------------------------------------
+;proc hittail  one of many failed algorithems i broke my head over before finding out i can read pixel colors. keeping it here for the sake of remembering
+   ; push ax
+  ;  push bx
+  ;  ;push cx
+  ;  push dx
+   ; push si
+   ; xor ax, ax
+    ;xor bx, bx
+   ; xor cx, cx
+  ;  xor dx, dx
+  ;  xor si, si
+
+
+   ; mov cx, [snakelen]
+;bigHTloop:
+  ;  mov si, cx
+   ; shl si, 1
+   ; mov bx, [snakey + si - 2]
+   ; mov dx, [snakex + si - 2]
+
+  ;  mov ax, 16
+;smallHTloop:
+  ;  mov si, ax
+ ;   shl si, 1
+   ; cmp bx, [leading_pixely + si - 2]
+ ;   je you_lost_tag
+   ; cmp dx, [leading_pixelx + si - 2]
+   ; je you_lost_tag
+
+   ; dec ax
+   ; cmp ax, 0
+   ; jne smallhtloop
+
+
+   ; cmp cx, 2
+    ;je endbightloop
+   ; loop bightloop
+;endbightloop:
+
+ ;   pop si
+  ;  pop dx
+  ;  pop cx
+  ;  pop bx
+   ; pop ax
+   ; ret
+   ; endp hittail
+
+;----------------------------------------------------------------------------------------------
+;proc updateleadingpixel i could not finish this in time.
+    ;push bx
+
+  ;  mov bx, [snakey + 0]
+  ;  mov [leading_pixely + 0], bx
+  ;  mov [leading_pixely + 2], bx
+  ;  mov [leading_pixely + 4], bx
+   ; mov [leading_pixely + 6], bx
+   ; inc bx
+   ; mov [leading_pixely + 8], bx
+   ; mov [leading_pixely + 10], bx
+   ; mov [leading_pixely + 12], bx
+   ; mov [leading_pixely + 14], bx
+   ; inc bx
+   ; mov [leading_pixely + 16], bx
+   ; mov [leading_pixely + 18], bx
+   ; mov [leading_pixely + 20], bx
+    ;mov [leading_pixely + 22], bx
+   ; inc bx
+   ; mov [leading_pixely + 24], bx
+  ;  mov [leading_pixely + 26], bx
+  ;  mov [leading_pixely + 28], bx
+  ;  mov [leading_pixely + 30], bx
+
+
+   ; mov bx, [snakex + 0]
+   ; mov [leading_pixely + 0], bx
+   ; mov [leading_pixely + 8], bx
+   ; mov [leading_pixely + 16], bx
+   ; mov [leading_pixely + 24], bx
+  ;  inc bx
+   ; mov [leading_pixely + 2], bx
+   ; mov [leading_pixely + 10], bx
+   ; mov [leading_pixely + 18], bx
+   ; mov [leading_pixely + 26], bx
+   ; inc bx
+   ; mov [leading_pixely + 4], bx
+   ; mov [leading_pixely + 12], bx
+   ; mov [leading_pixely + 20], bx
+   ; mov [leading_pixely + 28], bx
+   ; inc bx
+   ; mov [leading_pixely + 6], bx
+    ;mov [leading_pixely + 14], bx
+    ;mov [leading_pixely + 22], bx
+   ; mov [leading_pixely + 30], bx
+
+   ; pop bx
+    ;ret
+    ;endp updateleadingpixel
+;----------------------------------------------------------------------------------------------
+;you_lost_tag:
+  ;  jmp you_lost
+;Train station! Cl
+;----------------------------------------------------------------------------------------------=
+;proc checkfail I could not finish this in time.
+;x to cx y to dx
+ ;   push ax
+ ;   push bx
+ ;   push cx
+  ;  push dx
+   ; push si
+   ; xor ax, ax
+   ; xor bx, bx
+   ; xor cx, cx
+  ;  xor dx, dx
+   ; xor si, si
+    
+
+
+
+
+  ;  mov cx, 16
+;CFL:
+   ; mov si, cx
+   ; shl si, 1
+   ; mov dx, [leading_pixely + si - 2]
+    ;mov cx, [leading_pixelx + si - 2]
+   ; mov ah, 0Dh
+   ; int 10h
+    ;xor bx, bx
+    ;mov bx, [sncolor]
+   ; cmp al, bl
+   ; je you_lost_tag
+   ; loop cfl
+
+   ; pop si
+   ; pop dx
+   ; pop cx
+   ; pop bx
+   ; pop ax
+   ; ret
+   ;endp checkfail
+
+;----------------------------------------------------------------------------------------------
+;proc applerandom I could not finish this in time.
+    ;push ax
+  ;  push bx
+
+
+;Yagain:
+  ;  mov ax, [clock] ;Y
+   ; and al, 01111111b
+  ;  cmp al, 197
+  ;  jle yc
+   ; jmp yagain
+;yc:
+ ;   xor ah, ah
+   ; mov bx, ax
+   ; mov [appley], bx
+
+
+
+
+;xagain:
+   ; xor bx, bx
+   ; mov ax, [clock] ;x
+   ; and al, 11111111b
+   ; xor ah, ah
+  ;  add bx, ax    
+   ; mov ax, [clock]
+   ; and al, 00000111b
+   ; xor ah, ah
+   ; add bx, ax
+   ; cmp bx, 320
+   ; jle xc
+   ; jmp xagain
+;xc:
+  ; mov [applex], bx
+
+    ;pop bx
+   ; pop ax
+   ; ret 
+   ; endp applerandom
+;----------------------------------------------------------------------------------------------
+
 start:
 	mov ax, @data
 	mov ds, ax
@@ -844,6 +1188,9 @@ settings_screen_tag2:
 ;Train station! SMWFK
 
 
+
+
+
 MainMenu:
     ;load up main menu 
     call mainmenugraphic
@@ -861,11 +1208,28 @@ settings_screen:
 
 Start_Game:
     pop ax
+    call clearbuffer
 ;MMWFK 
 
 
     ;turning on walls and snake
     call startgamegraphic
+
+print_apple:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -875,32 +1239,88 @@ Move_Up:
     call headonup
     call tailoff
     call updatesnakeup
+    call getinput
+    jnz lu
+    jmp move_up
+lu:
+    call checkinput
+    cmp al, 97
+    je move_left
+    cmp al, 100
+    je move_right
     jmp move_up
 
 
 
 
+
 Move_Down:
+    call waitsec
+    call headondown
+    call tailoff
+    call updatesnakedown
+    call getinput
+    jnz ld
+    jmp move_down
+ld:
+    call checkinput
+    cmp al, 97
+    je move_left
+    cmp al, 100
+    je move_right
+    jmp move_down
 
-
+jmp move_right
+pointless_train_station:
+    jmp move_up   
 
 
 Move_Right:
+    call waitsec
+    call headonright
+    call tailoff
+    call updatesnakeright
+    call getinput
+    jnz lr
+    jmp move_right
+lr:
+    call checkinput
+    cmp al, 119
+    je move_up
+    cmp al, 115
+    je move_down
+    jmp move_right
+
+
+
 Move_Left:
+    call waitsec
+    call headonleft
+    call tailoff
+    call updatesnakeleft
+    call getinput
+    jnz ll
+    jmp move_left
+ll:
+    call checkinput
+    cmp al, 119
+    je pointless_train_station
+    cmp al, 115
+    je move_down
+    jmp move_left
 
 
 
 
 
 
-
-
-
-
-
-
-
-
+you_lost:
+    mov ax, 13h
+	int 10h
+    push 10
+    push offset game_over
+    push offset you_suck
+    call printtext_spaces
 
 
 
